@@ -1,0 +1,26 @@
+:root{
+    /* color variables */
+    --primary: cadetblue;
+    --accent: crimson;
+    --light: mistyrose;
+    --dark: darkslategrey;
+}
+
+body {
+    background-color: var(--primary);
+    color: var(--light);
+    display: block;
+}
+
+header {
+    padding: 10px;
+    margin: 10px;
+}
+
+nav button {
+    text-decoration: none;
+    background-color: var(--dark);
+    color: var(--light);
+    padding: 10px;
+    margin-left: 10px;
+}
