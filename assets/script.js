@@ -9,7 +9,8 @@ var scoreBtn = document.querySelector("#score-btn");
 var playQuizBtn = document.querySelector("#play-quiz");
 
 var questionText = document.querySelector(".question");
-var answersText = document.querySelector(".answers");
+var answersUl = document.querySelector(".answers");
+var timer = document.querySelector(".timer");
 
 var highScores = document.querySelector("#high-scores");
 var goHomeButton = document.querySelector("#return-home");
@@ -143,16 +144,85 @@ function playQuiz(){
     hideAll();
     quizScreen.setAttribute("style", "display: contents");
 
-    for (var i = 0; i < allQuestions.length; i++) {
+    var timeLeft = 120;
+    var currQuestion = 0;
 
-    // print question
-    // answer
+    setInterval(function(){
+        if (timeLeft > 1) {
+            timer.textContent = timeLeft + ' seconds remaining';
+            timeLeft--;
+        } else if (timeLeft === 1) {
+            timer.textContent = timeLeft + ' second remaining';
+            timeLeft--;
+        } else {
+            timer.textContent = '';
+            clearInterval(timeInterval);
+        }
 
-    }
+
+    }, 1000);
 
 
     // timer
 };
+
+function printQuestion(i){
+    /*
+    questionText : "Commonly used data types DO NOT INCLUDE:",
+    answers: [{
+        answersText : "strings",
+        isCorrect : false
+    },
+    {
+        answersText : "booleans",
+        isCorrect : false
+    },
+    {
+        answersText : "alerts",
+        isCorrect : true
+    },
+    {
+        answersText : "numbers",
+        isCorrect : false
+    }],
+    */
+
+    var liArray = [document.createElement("a"),
+                   document.createElement("a"),
+                   document.createElement("a"),
+                   document.createElement("a")];
+    // print question
+    questionText.textContent = allQuestions[i].questionText;
+
+    // answer
+    for (var j = 0; i < allQuestions[i].answers.length; j++) {
+        liArray[j].textContent = (j+1) + ": " + allQuestions[i].answers[j].answersText;
+
+        if (allQuestions[i].answers[j].isCorrect) {
+            liArray[j].classList.add("correct");
+        }
+        else {
+            liArray[j].classList.add("wrong");
+        }
+
+        answersUl.children[0].appendChild(liArray[j]);
+    }
+
+    var correctBtn = document.querySelector(".correct");
+    var wrongBtn = document.querySelector(".wrong");
+
+    correctBtn.addEventListener("click", nextQuestion);
+    wrongBtn.addEventListener("click", nextQuestion);
+    wrongBtn.addEventListener("click", lowerTime);
+};
+
+function lowerTime() {
+
+}
+
+function nextQuestion(){
+
+}
 
 function addScore(event){
     // Store Scores
