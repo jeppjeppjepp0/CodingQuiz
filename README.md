@@ -1,24 +1,27 @@
 # 04 Web APIs: Code Quiz
 
-## Your Task
 
-At some point in your journey to become a full-stack web developer, you’ll likely be asked to complete a coding assessment&mdash;perhaps as part of an interview process. A typical coding assessment includes both multiple-choice questions and interactive coding challenges. 
 
-To help familiarize you with these tests and allow you to use the skills covered in this unit, this week’s challenge invites you to build a timed coding quiz with multiple-choice questions. This app will run in the browser and will feature dynamically updated HTML and CSS powered by JavaScript code that you write. It will have a clean, polished, and responsive user interface. 
 
-This week’s coursework will equip you with all the skills you need to succeed in this assignment.
+# Your Project Title 
 
-## User Story
+## Technology Used 
 
-```
-AS A coding boot camp student
-I WANT to take a timed quiz on JavaScript fundamentals that stores high scores
-SO THAT I can gauge my progress compared to my peers
-```
+| Technology Used         | Resource URL           | 
+| ------------- |:-------------:| 
+| HTML    | [https://developer.mozilla.org/en-US/docs/Web/HTML](https://developer.mozilla.org/en-US/docs/Web/HTML) | 
+| JavaScript | [https://developer.mozilla.org/en-US/docs/Web/JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)|   
+| Git | [https://git-scm.com/](https://git-scm.com/)     |    
 
-## Acceptance Criteria
+<hr>
 
-```
+## Description 
+
+[Visit the Deployed Site](https://jeppjeppjepp0.github.io/CodingQuiz/)
+
+This project uses javascript to manage a code quiz by creating and appending elements, as well as editing text content and removing elements. The full requirements of the project are listed below:
+
+```md
 GIVEN I am taking a code quiz
 WHEN I click the start button
 THEN a timer starts and I am presented with a question
@@ -32,58 +35,99 @@ WHEN the game is over
 THEN I can save my initials and my score
 ```
 
-## Mock-Up
+<hr>
 
-The following animation demonstrates the application functionality:
+## Table of Contents
 
-![A user clicks through an interactive coding quiz, then enters initials to save the high score before resetting and starting over.](./Assets/04-web-apis-challenge-demo.gif)
 
-## Grading Requirements
+* [Code Sample](#code-sample)
+* [Usage](#usage)
+* [Learning Points](#learning-points)
+* [Author Info](#author-info)
 
-This challenge is graded based on the following criteria: 
+<hr>
 
-### Technical Acceptance Criteria: 40%
+## Code Sample
 
-* Satisfies all of the preceding acceptance criteria.
+The most important and one of the most frequently used pieces of code is the printQuestion(i) function. This function took in an integer parameter to print the questions stored in the gigantic array to the screen. The following for loop is the section of code that printed the answers into the buttons.
 
-### Deployment: 32%
+```js
+for (var j = 0; j < allQuestions[i].answers.length; j++) {
+    // sets button text to answer text
+    liArray[j].textContent = (j+1) + ": " + allQuestions[i].answers[j].answersText;
+    console.log((j+1) + ": " + allQuestions[i].answers[j].answersText.textContent);
+    // console.log(answersUl.children[i]);
 
-* Application deployed at live URL.
+    if (allQuestions[i].answers[j].isCorrect) {
+        liArray[j].classList.add("correct");
+    }
+    else {
+        liArray[j].classList.add("wrong");
+    }
 
-* Application loads with no errors.
+    answersUl.children[j].appendChild(liArray[j]);
+}
+```
 
-* Application GitHub URL submitted.
+The i variable represents the index of the current question that the user is currently on. The j variable is the index of the answer beneath the question. Each answer has an isCorrect tag to give the button a class that either moves on to the next question or moves on to the next question and loses time (see isCorrect below).
 
-* GitHub repository contains application code.
+```js
+questionText : "Commonly used data types DO NOT INCLUDE:",
+answers: [{
+    answersText : "strings",
+    isCorrect : false
+},
+{
+    answersText : "booleans",
+    isCorrect : false
+},
+{
+    answersText : "alerts",
+    isCorrect : true
+},
+{
+    answersText : "numbers",
+    isCorrect : false
+}],
+```
 
-### Application Quality: 15%
+<hr>
 
-* Application user experience is intuitive and easy to navigate.
+## Usage 
 
-* Application user interface style is clean and polished.
+The user is presented with the home screen and can either choose to play the quiz or view scores.
 
-* Application resembles the mock-up functionality provided in the challenge instructions.
+![Home Screen](images/homescreen.png)
 
-### Repository Quality: 13%
+If the user chooses to play the quiz, they will be presented with a set of 5 questions with 4 options each. If the user chooses incorrectly, they will lose 20 seconds of time.
 
-* Repository has a unique name.
+![Question Example](images/questionex.png)
 
-* Repository follows best practices for file structure and naming conventions.
+At the end of the quiz, users will have the opportunity to submit their name to store their score.
 
-* Repository follows best practices for class/id naming conventions, indentation, quality comments, etc.
+![Form Example](images/formex.png)
 
-* Repository contains multiple descriptive commit messages.
+Once submitted, the website will store the name and score to be displayed on later visits of the site.
 
-* Repository contains quality readme file with description, screenshot, and link to deployed application.
+![Scores Example](images/scoresex.png)
 
-## Review
+<hr>
 
-You are required to submit BOTH of the following for review:
+## Learning Points 
 
-* The URL of the functional, deployed application.
+Below are the following topics/methods that I learned through this project:
 
-* The URL of the GitHub repository, with a unique name and a readme describing the project.
+ * [setInterva()](https://www.w3schools.com/jsref/met_win_clearinterval.asp)
+ * [createElement()](https://www.w3schools.com/jsref/met_document_createelement.asp)
+ * [textContent](https://www.w3schools.com/jsref/prop_node_textcontent.asp)
+ * [appendChild()](https://www.w3schools.com/jsref/met_node_appendchild.asp)
 
----
+<hr>
 
-© 2023 edX Boot Camps LLC. Confidential and Proprietary. All Rights Reserved.
+## Author Info
+
+
+### Jedd Javier
+
+* [LinkedIn](https://www.linkedin.com/in/jedd-javier-4b323426b/)
+* [Github](github.com/jeppjeppjepp0)
