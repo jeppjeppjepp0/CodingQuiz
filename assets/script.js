@@ -15,6 +15,8 @@ var timer = document.querySelector(".timer");
 var highScores = document.querySelector("#high-scores");
 var goHomeButton = document.querySelector("#return-home");
 
+var nameEntryBox = document.querySelector("#name-entry");
+
 /* allQuestions is an array of objects
         each object contains a string and another array of objects
             the objects within this array contain a string and a boolean value
@@ -122,13 +124,18 @@ var allQuestions =[
     }
 ];
 
+// global variables for general wellbeing
 var timeLeft = 120;
 var currQuestion = 0;
+
+// empty array to add scores
+var storedScores = [];
 
 function hideAll(){
     homeScreen.setAttribute("style", "display: none");
     quizScreen.setAttribute("style", "display: none");
     scoreScreen.setAttribute("style", "display: none");
+    nameEntryBox.setAttribute("style", "display: none");
 };
 
 function displayHome(){
@@ -150,7 +157,7 @@ function playQuiz(){
 
     printQuestion(currQuestion);
 
-    setInterval(function(){
+    var timerInterval = setInterval(function(){
         if (timeLeft > 1) {
             timer.textContent = timeLeft + ' seconds remaining';
             timeLeft--;
@@ -160,10 +167,10 @@ function playQuiz(){
         } 
         if (currQuestion == allQuestions.length ||
             timeLeft < 1) {
-                // debugger;
                 timer.textContent = '';
-                clearInterval(timeLeft);
                 endGame();
+                clearInterval(timerInterval);
+                // endGame();
             }
     }, 1000); 
 };
@@ -221,14 +228,18 @@ function printQuestion(i){
         clearQuestion();
 
         currQuestion++;
-        printQuestion(currQuestion);
+        if (currQuestion !== allQuestions.length){
+            printQuestion(currQuestion);
+        }
     });
     for (var i = 0; i < wrongBtn.length; i++){
         wrongBtn[i].addEventListener("click", function(){
             clearQuestion();
 
             currQuestion++;
-            printQuestion(currQuestion);
+            if (currQuestion !== allQuestions.length){
+                printQuestion(currQuestion);
+            }
 
             timeLeft -= 20;
         });
@@ -243,25 +254,47 @@ function clearQuestion(){
 }
 
 function endGame(){
-    clearQuestion();
+    hideAll();
 
+    printHighScores();
+    nameEntryBox.setAttribute("style", "display: contents");
+
+    
+    // store scores
+
+    nameEntryBox.addEventListener("submit", handleSubmit);
 }
 
-function addScore(event){
-    // Store Scores
-};
+function handleSubmit(event){
+    // console.log(document.querySelector("input").value);
+    storedScores = storedScores.concat({name: document.querySelector("input").value, time: timeLeft});
+    localStorage.setItem("storedScores", JSON.stringify(storedScores));
+    printHighScores();
+}
 
 function printHighScores(){
     hideAll();
     scoreScreen.setAttribute("style", "display: contents");
 
     // Print Scores
+    storedScores = pullScores();
+    
+    for (var i = 0; i < storedScores.length; i++){
+        var newLi = document.createElement("li");
+        newLi.textContent = "Name: " + storedScores[i].name + "; Score: " + storedScores[i].time;
+        highScores.appendChild(newLi);
+    }
 
     goHomeButton.textContent = "Return Home";
 };
 
-hideAll();
+function pullScores(){
+    return JSON.parse(localStorage.getItem("storedScores")) || [];
+}
 
+
+// default screen
+hideAll();
 displayHome();
 
 
