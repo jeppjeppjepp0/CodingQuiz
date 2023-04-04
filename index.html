@@ -7,28 +7,44 @@
     </head>
 
     <body>
-        <header>
-            <h1 class="title">Coding Quiz</h1>
-        </header>
+        <div id="home-screen" data-state="hidden">
+            <header>
+                <h1 class="title"></h1>
+            </header>
 
-        <nav>
-            <button id="score-btn">View High Scores</button>
-        </nav>
+            <nav>
+                <button id="score-btn"></button>
+                <button id="play-quiz"></button>
+            </nav>
+        </div>
 
-        <main>
-            <h3 class="question"></h3>
-            <ul class="answers">
-                <!-- <li></li>
-                <li></li>
-                <li></li>
-                <li></li> -->
-            </ul>
-        </main>
+        <div id="quiz-screen" data-state="hidden">
+            <main>
+                <h3 class="question" data-state="hidden"></h3>
+                <ul class="answers" data-state="hidden">
+                    <!-- 
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li> 
+                    -->
+                </ul>
+            </main>
+        </div>
 
-        <footer id="high-scores">
-            <ul>
-            </ul>
-        </footer>
+        <div id="score-screen" data-state="hidden">
+            <footer  data-state="hidden">
+                <ul id="high-scores">
+                    <!-- 
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li> 
+                    -->
+                </ul>
+            </footer>
+            <button id="return-home"></button>
+        </div>
 
         <script src="./assets/script.js"></script>
     </body>
