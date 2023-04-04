@@ -122,7 +122,8 @@ var allQuestions =[
     }
 ];
 
-
+var timeLeft = 120;
+var currQuestion = 0;
 
 function hideAll(){
     homeScreen.setAttribute("style", "display: none");
@@ -144,8 +145,10 @@ function playQuiz(){
     hideAll();
     quizScreen.setAttribute("style", "display: contents");
 
-    var timeLeft = 120;
-    var currQuestion = 0;
+    currQuestion = 0;
+    timeLeft = 120;
+
+    printQuestion(currQuestion);
 
     setInterval(function(){
         if (timeLeft > 1) {
@@ -154,16 +157,15 @@ function playQuiz(){
         } else if (timeLeft === 1) {
             timer.textContent = timeLeft + ' second remaining';
             timeLeft--;
-        } else {
-            timer.textContent = '';
-            clearInterval(timeInterval);
-        }
-
-
-    }, 1000);
-
-
-    // timer
+        } 
+        if (currQuestion == allQuestions.length ||
+            timeLeft < 1) {
+                // debugger;
+                timer.textContent = '';
+                clearInterval(timeLeft);
+                endGame();
+            }
+    }, 1000); 
 };
 
 function printQuestion(i){
@@ -187,16 +189,20 @@ function printQuestion(i){
     }],
     */
 
-    var liArray = [document.createElement("a"),
-                   document.createElement("a"),
-                   document.createElement("a"),
-                   document.createElement("a")];
+    var liArray = [document.createElement("button"),
+                   document.createElement("button"),
+                   document.createElement("button"),
+                   document.createElement("button")];
     // print question
     questionText.textContent = allQuestions[i].questionText;
 
     // answer
-    for (var j = 0; i < allQuestions[i].answers.length; j++) {
+    // loop through answers
+    for (var j = 0; j < allQuestions[i].answers.length; j++) {
+        // sets button text to answer text
         liArray[j].textContent = (j+1) + ": " + allQuestions[i].answers[j].answersText;
+        console.log((j+1) + ": " + allQuestions[i].answers[j].answersText.textContent);
+        // console.log(answersUl.children[i]);
 
         if (allQuestions[i].answers[j].isCorrect) {
             liArray[j].classList.add("correct");
@@ -205,22 +211,39 @@ function printQuestion(i){
             liArray[j].classList.add("wrong");
         }
 
-        answersUl.children[0].appendChild(liArray[j]);
+        answersUl.children[j].appendChild(liArray[j]);
     }
 
     var correctBtn = document.querySelector(".correct");
-    var wrongBtn = document.querySelector(".wrong");
+    var wrongBtn = document.getElementsByClassName("wrong");
 
-    correctBtn.addEventListener("click", nextQuestion);
-    wrongBtn.addEventListener("click", nextQuestion);
-    wrongBtn.addEventListener("click", lowerTime);
+    correctBtn.addEventListener("click", function(){
+        clearQuestion();
+
+        currQuestion++;
+        printQuestion(currQuestion);
+    });
+    for (var i = 0; i < wrongBtn.length; i++){
+        wrongBtn[i].addEventListener("click", function(){
+            clearQuestion();
+
+            currQuestion++;
+            printQuestion(currQuestion);
+
+            timeLeft -= 20;
+        });
+    }
 };
 
-function lowerTime() {
-
+function clearQuestion(){
+    questionText.textContent = "";
+    for (var i = 0; i < 4; i++) {
+        answersUl.children[i].children[0].remove();
+    }
 }
 
-function nextQuestion(){
+function endGame(){
+    clearQuestion();
 
 }
 
